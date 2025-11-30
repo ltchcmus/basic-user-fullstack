@@ -17,7 +17,13 @@ import {
   Checkbox,
   FormControlLabel,
   Paper,
-  CircularProgress
+  CircularProgress,
+  Fade,
+  Slide,
+  Zoom,
+  Chip,
+  LinearProgress,
+  keyframes
 } from '@mui/material';
 import { 
   Login as LoginIcon, 
@@ -30,11 +36,27 @@ import {
 } from '@mui/icons-material';
 import { loginUser } from '../services/api';
 
+// Predefined particle positions to avoid Math.random in render (React 19 compatibility)
+const particleConfigs = [
+  { width: 60, height: 60, top: 20, left: 15, duration: 3.2, delay: 0 },
+  { width: 80, height: 80, top: 65, left: 85, duration: 4, delay: 0.6 },
+  { width: 100, height: 100, top: 40, left: 55, duration: 3.6, delay: 1.2 },
+  { width: 120, height: 120, top: 80, left: 30, duration: 4.4, delay: 1.8 },
+  { width: 140, height: 140, top: 50, left: 95, duration: 3.9, delay: 0.3 },
+];
+
+// Floating animation with rotation for background particles
+const float = keyframes`
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+`;
+
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   
+  // React Hook Form setup with onChange validation mode
   const { 
     register, 
     handleSubmit, 
@@ -43,6 +65,7 @@ const Login = () => {
     mode: 'onChange'
   });
 
+  // Mutation for login API call
   const mutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
@@ -59,10 +82,28 @@ const Login = () => {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', py: 4, px: 2 }}>
-      <Container maxWidth="sm">
+    <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', py: 4, px: 2, position: 'relative', overflow: 'hidden' }}>
+      {particleConfigs.map((particle, i) => (
+        <Box
+          key={i}
+          sx={{
+            position: 'absolute',
+            width: `${particle.width}px`,
+            height: `${particle.height}px`,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+            top: `${particle.top}%`,
+            left: `${particle.left}%`,
+            animation: `${float} ${particle.duration}s ease-in-out infinite`,
+            animationDelay: `${particle.delay}s`,
+            backdropFilter: 'blur(5px)',
+          }}
+        />
+      ))}
+      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Back to Home Button */}
-        <Button
+        <Slide direction="right" in={true} timeout={600}>
+          <Button
           startIcon={<ArrowBack />}
           onClick={() => navigate('/')}
           sx={{
@@ -76,17 +117,40 @@ const Login = () => {
         >
           Back to Home
         </Button>
+        </Slide>
 
-        <Paper
+        <Zoom in={true} timeout={800}>
+          <Paper
           elevation={24}
           sx={{ 
             borderRadius: 4,
             overflow: 'hidden',
-            bgcolor: 'white'
+            bgcolor: 'white',
+            boxShadow: '0 30px 80px rgba(0,0,0,0.4)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            backdropFilter: 'blur(20px)',
+            position: 'relative'
           }}
         >
+          {mutation.isPending && (
+            <LinearProgress 
+              sx={{ 
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                borderRadius: '16px 16px 0 0',
+                height: 3,
+                bgcolor: 'rgba(102,126,234,0.2)',
+                '& .MuiLinearProgress-bar': {
+                  bgcolor: '#667eea'
+                }
+              }} 
+            />
+          )}
           {/* Header */}
-          <Box sx={{ bgcolor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', p: 4, textAlign: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+          <Fade in={true} timeout={1000}>
+            <Box sx={{ bgcolor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', p: 4, textAlign: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
             <Box
               sx={{
                 width: 70,
@@ -102,6 +166,7 @@ const Login = () => {
             >
               <LoginIcon sx={{ fontSize: 35, color: '#667eea' }} />
             </Box>
+            <Chip label="Secure Login" size="small" sx={{ mb: 2, bgcolor: 'rgba(255,255,255,0.2)', color: 'white', fontWeight: 600 }} />
             <Typography variant="h4" sx={{ fontWeight: 700, color: 'white', mb: 1 }}>
               Welcome Back
             </Typography>
@@ -109,6 +174,7 @@ const Login = () => {
               Sign in to continue to your account
             </Typography>
           </Box>
+          </Fade>
 
           <CardContent sx={{ p: 5 }}>
             {mutation.isSuccess && (
@@ -308,6 +374,7 @@ const Login = () => {
             </Box>
           </CardContent>
         </Paper>
+        </Zoom>
       </Container>
     </Box>
   );

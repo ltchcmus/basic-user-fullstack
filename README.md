@@ -1,651 +1,212 @@
-# 🚀 UserHub - Full Stack User Registration System
+# UserHub - Hệ Thống Xác Thực Full Stack
 
-A complete, production-ready User Registration and Authentication System built with **NestJS** (Backend) and **React** (Frontend) with Material UI.
+Ứng dụng web full-stack hiện đại với hệ thống xác thực người dùng, giao diện Material UI đẹp mắt và API backend bảo mật.
 
-## 📋 Table of Contents
+**Sinh viên thực hiện:** Lê Thành Công
 
-- [Project Overview](#-project-overview)
-- [Technologies Used](#-technologies-used)
-- [Features Implemented](#-features-implemented)
-- [Project Structure](#-project-structure)
-- [Installation & Setup](#-installation--setup)
-- [Running the Application](#-running-the-application)
-- [API Documentation](#-api-documentation)
-- [Assignment Requirements Checklist](#-assignment-requirements-checklist)
-- [Advanced Features (Bonus)](#-advanced-features-bonus)
-- [Deployment](#-deployment)
-- [Screenshots](#-screenshots)
+## Tính Năng
 
----
+- **Xác Thực Người Dùng**: Hệ thống đăng ký và đăng nhập bảo mật
+- **Giao Diện Đẹp**: Thiết kế gradient hiện đại với các thành phần và animation Material UI
+- **Bảo Vệ Route**: Các route được bảo vệ cho người dùng đã xác thực
+- **Xác Thực Thời Gian Thực**: Xác thực form với React Hook Form
+- **Thiết Kế Responsive**: Hoạt động mượt mà trên mọi thiết bị
+- **Backend Bảo Mật**: NestJS API với TypeORM và PostgreSQL
 
-## 🎯 Project Overview
+## Yêu Cầu Hệ Thống
 
-UserHub is a modern authentication system that demonstrates best practices in full-stack development. It provides secure user registration, login functionality, and protected routes with a beautiful, responsive UI.
+Trước khi chạy project, vui lòng cài đặt các phần mềm sau:
 
-**Live Demo:** [Add your deployment URL here]
+- **Node.js** (phiên bản 18 trở lên)
+  - Tải tại: https://nodejs.org/
+  - Khuyến nghị: Phiên bản LTS (Long Term Support)
+- **npm** (phiên bản 9 trở lên)
+  - Được cài đặt tự động cùng Node.js
+- **PostgreSQL** (phiên bản 14 trở lên)
+  - Tải tại: https://www.postgresql.org/download/
+  - Lưu ý: Ghi nhớ username và password khi cài đặt
 
----
+## Cài Đặt & Thiết Lập
 
-## 🛠 Technologies Used
+### Lưu Ý Quan Trọng
 
-### Backend
+Dự án này đã bao gồm **đầy đủ source code và file cấu hình** (`.env`). Nên sẽ có 2 cách để chạy:
 
-- **NestJS** - Progressive Node.js framework
-- **TypeORM** - ORM for database management
-- **PostgreSQL/MySQL** - Relational database
-- **bcrypt** - Password hashing
-- **class-validator** - DTO validation
-- **class-transformer** - Data transformation
+**Cách 1: Sử dụng cấu hình có sẵn (Nhanh nhất)**
 
-### Frontend
+- Sử dụng file `.env` đã có trong project
+- Chỉ cần cài dependencies và chạy
+- **Bỏ qua bước thiết lập database**
 
-- **React 19** - UI library
-- **Material UI (MUI)** - Component library
-- **React Router DOM** - Client-side routing
-- **React Hook Form** - Form validation
-- **React Query (@tanstack/react-query)** - Server state management
-- **Axios** - HTTP client
-- **Vite** - Build tool
+**Cách 2: Tự cấu hình database riêng**
+
+- Tạo database PostgreSQL mới
+- Chỉnh sửa file `.env` các thông tin liên quan database
+- Xóa migration cũ và tạo và chạy migration mới để tạo bảng trong database
 
 ---
 
-## ✨ Features Implemented
+### Cách 1: Sử dụng Cấu Hình Có Sẵn (Khuyến Nghị)
 
-### Required Features (Per IA03 Requirements)
+Nếu chạy nhanh với file `.env` có sẵn, làm theo các bước sau:
 
-#### Backend Implementation ✅
-
-- ✅ **User Schema with Required Fields**
-
-  - `userId` (UUID, auto-generated)
-  - `email` (String, unique, required)
-  - `password` (String, hashed, required)
-  - `createdAt` (Date, auto-generated)
-
-- ✅ **POST /api/v1/users/register Endpoint**
-
-  - Input validation (email format, password length)
-  - Duplicate email detection
-  - Password hashing with bcrypt (salt rounds: 10)
-  - Comprehensive error handling
-  - Returns user data (excluding password)
-
-- ✅ **POST /api/v1/users/login Endpoint**
-
-  - Email and password validation
-  - Secure password comparison
-  - User authentication
-  - Returns user data on success
-
-- ✅ **Error Handling**
-
-  - Custom exception filters
-  - Meaningful error messages
-  - Validation error formatting
-  - HTTP status codes
-
-- ✅ **Security**
-  - Environment variables for configuration
-  - CORS enabled for frontend
-  - Password hashing
-  - Input sanitization
-  - API key middleware (optional)
-
-#### Frontend Implementation ✅
-
-- ✅ **Styled with Material UI**
-
-  - Professional gradient designs
-  - Responsive layouts
-  - Accessible components
-  - Consistent theming
-
-- ✅ **Form Validation with React Hook Form**
-
-  - Real-time validation
-  - Email format checking
-  - Password strength requirements
-  - Confirm password matching
-  - Clear error messages
-
-- ✅ **Pages & Routing**
-
-  - **Home** - Landing page with features showcase
-  - **Sign Up** - User registration with full backend integration
-  - **Login** - User authentication with backend API
-  - **Dashboard** - Protected user profile page
-
-- ✅ **Sign Up Screen**
-
-  - Email and password fields
-  - Confirm password field
-  - POST request to `/api/v1/users/register`
-  - Success/error feedback
-  - Redirects to login on success
-
-- ✅ **Login Screen**
-
-  - Email and password input
-  - POST request to `/api/v1/users/login`
-  - Backend authentication
-  - Session management
-  - Redirects to dashboard on success
-
-- ✅ **React Query Integration**
-
-  - Mutations for registration and login
-  - Loading states
-  - Error handling
-  - Optimized caching
-  - Automatic refetch configuration
-
-- ✅ **User Experience**
-  - Loading indicators
-  - Success/error alerts
-  - Form validation feedback
-  - Responsive design
-  - Password visibility toggle
-  - Accessible interface
-
----
-
-## 🎁 Advanced Features (Bonus)
-
-These additional features were implemented beyond the assignment requirements:
-
-### 1. **Authentication Context & State Management**
-
-- Global authentication state using React Context API
-- Persistent sessions with localStorage
-- Centralized user data management
-- Automatic authentication restoration on page reload
-
-### 2. **Protected Routes**
-
-- Route guards for authenticated pages
-- Automatic redirect to login for unauthenticated users
-- Seamless navigation flow
-
-### 3. **User Dashboard**
-
-- Dedicated user profile page
-- Display of user information (ID, email, creation date)
-- Account statistics
-- Professional UI with Material UI cards
-- Logout functionality
-
-### 4. **Enhanced UI/UX**
-
-- Gradient backgrounds and animations
-- Icon integration (@mui/icons-material)
-- Password strength indicators
-- Remember me functionality
-- Smooth transitions and hover effects
-- Mobile-responsive design
-
-### 5. **Advanced API Integration**
-
-- Axios interceptors for request/response handling
-- Automatic token management
-- Error message extraction
-- Validation error parsing
-- HttpResponse wrapper handling
-
-### 6. **Comprehensive Error Handling**
-
-- Backend validation errors displayed in frontend
-- Network error handling
-- User-friendly error messages
-- Visual error feedback
-
-### 7. **Code Quality**
-
-- TypeScript in backend
-- PropTypes validation in React
-- Clean code architecture
-- Separation of concerns
-- Reusable components
-
-### 8. **Security Enhancements**
-
-- Password confirmation validation
-- Custom validation decorators
-- API key middleware support
-- Secure password storage
-
-### 9. **Developer Experience**
-
-- Environment variable configuration
-- Hot module replacement
-- ESLint configuration
-- Prettier formatting
-- Detailed code comments
-
-### 10. **Production Readiness**
-
-- Build scripts for production
-- Environment-based configuration
-- CORS configuration
-- Error logging
-- Graceful shutdown handling
-
----
-
-## 📁 Project Structure
-
-```
-fullstack-basic/
-├── backend/
-│   ├── src/
-│   │   ├── entity/
-│   │   │   └── user.ts                    # User entity definition
-│   │   ├── user/
-│   │   │   ├── user.controller.ts         # User endpoints
-│   │   │   ├── user.service.ts            # Business logic
-│   │   │   ├── user.module.ts             # Module configuration
-│   │   │   └── dtos/
-│   │   │       ├── request/
-│   │   │       │   ├── register-user.request.dto.ts
-│   │   │       │   └── login-user.request.dto.ts
-│   │   │       └── response/
-│   │   │           ├── register-user.response.dto.ts
-│   │   │           └── login-user.response.dto.ts
-│   │   ├── exception/
-│   │   │   ├── app-exception.ts           # Custom exceptions
-│   │   │   ├── error-code.ts              # Error codes
-│   │   │   ├── catch-app-exception/
-│   │   │   └── global-exception/
-│   │   ├── decorator/
-│   │   │   └── match.validator.decorator.ts  # Custom validators
-│   │   ├── api-key/
-│   │   │   └── api-key.middleware.ts      # API security
-│   │   ├── http-response.ts               # Response wrapper
-│   │   ├── typeorm.config.ts              # Database config
-│   │   ├── logger.config.ts               # Logging setup
-│   │   └── main.ts                        # App entry point
-│   ├── .env                                # Environment variables
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── Home.jsx                   # Landing page
-│   │   │   ├── SignUp.jsx                 # Registration page
-│   │   │   ├── Login.jsx                  # Login page
-│   │   │   └── Dashboard.jsx              # User dashboard
-│   │   ├── components/
-│   │   │   └── ProtectedRoute.jsx         # Route guard
-│   │   ├── context/
-│   │   │   └── AuthContext.jsx            # Auth state management
-│   │   ├── services/
-│   │   │   └── api.js                     # API client & endpoints
-│   │   ├── App.jsx                        # Main app component
-│   │   └── main.jsx                       # App entry point
-│   ├── .env                                # Environment variables
-│   ├── package.json
-│   └── vite.config.js
-│
-└── README.md                               # This file
-```
-
----
-
-## 🔧 Installation & Setup
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-- PostgreSQL/MySQL database
-
-### Backend Setup
-
-1. **Navigate to backend directory:**
-
-   ```bash
-   cd backend
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables:**
-
-   Create a `.env` file in the backend directory:
-
-   ```env
-   # Server
-   PORT=9999
-   FRONTEND_URL=http://localhost:5173
-
-   # Database (Update with your credentials)
-   DB_TYPE=postgres                    # or mysql
-   DB_HOST=localhost
-   DB_PORT=5432                        # 3306 for MySQL
-   DB_USER=your_username
-   DB_PASS=your_password
-   DB_NAME=userhub_db
-
-   # Security (Optional)
-   API_KEY=your_secure_api_key
-   ```
-
-4. **Create database:**
-
-   ```sql
-   CREATE DATABASE userhub_db;
-   ```
-
-5. **Run migrations:**
-   ```bash
-   npm run migration:run
-   ```
-
-### Frontend Setup
-
-1. **Navigate to frontend directory:**
-
-   ```bash
-   cd frontend
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables:**
-
-   Create/update `.env` file in the frontend directory:
-
-   ```env
-   VITE_API_URL=http://localhost:9999
-   ```
-
----
-
-## 🚀 Running the Application
-
-### Development Mode
-
-#### Start Backend:
+#### Bước 1: Cài đặt Backend
 
 ```bash
+# Di chuyển vào thư mục backend
 cd backend
+
+# Cài đặt dependencies
+npm install
+
+# Khởi động backend server
 npm run start:dev
 ```
 
-Backend will run on `http://localhost:9999`
+✅ Backend sẽ chạy tại: **http://localhost:9999**
 
-#### Start Frontend:
+#### Bước 2: Cài đặt Frontend
+
+Mở **cửa sổ terminal mới** (giữ nguyên terminal backend đang chạy):
 
 ```bash
+# Di chuyển vào thư mục frontend
 cd frontend
+
+# Cài đặt dependencies
+npm install
+
+# Khởi động frontend development server
 npm run dev
 ```
 
-Frontend will run on `http://localhost:5173`
+✅ Frontend sẽ chạy tại: **http://localhost:5173**
 
-### Production Mode
+**Mở trình duyệt và truy cập http://localhost:5173 để sử dụng ứng dụng.**
 
-#### Build Backend:
+---
+
+### Cách 2: Tự Cấu Hình Database Riêng
+
+Nếu muốn sử dụng database PostgreSQL riêng của mình:
+
+#### Bước 1: Tạo Database Mới
+
+1. Mở PostgreSQL (pgAdmin hoặc command line)
+2. Tạo database mới:
+
+```sql
+CREATE DATABASE userhub_db;
+```
+
+**Có thể sử dụng Database cloud thay cho database chạy trên local**
+
+#### Bước 2: Cấu Hình Backend
+
+1. Mở file `backend/.env`
+2. Thay đổi thông tin database:
+
+```env
+# Thay đổi các giá trị sau theo database đã được tạo
+DB_HOST=[your-database-host]
+DB_PORT=[YOUR-PORT]
+DB_USER=[YOUR-USERNAME]
+DB_PASS=[YOUR-PASSWORD]
+DB_NAME=[YOUR-DB-NAME]
+
+# Giữ nguyên các cấu hình khác
+DB_TYPE=postgres
+PORT=9999
+API_KEY=your_secure_api_key_here
+```
+
+#### Bước 3: Xóa Migration Cũ và Tạo Migration Mới
 
 ```bash
 cd backend
-npm run build
-npm run start:prod
+
+# Cài đặt dependencies
+npm install
+
+# Xóa các file migration cũ trong thư mục src/migrations
+# (Có thể xóa thủ công hoặc dùng lệnh)
+
+# Tạo migration mới
+npm run migration:generate -- src/migrations/init
+
+# Chạy migration để tạo bảng
+npm run migration:run
+
+# Khởi động backend
+npm run start:dev
 ```
 
-#### Build Frontend:
+#### Bước 4: Cấu Hình Frontend
+
+1. Mở file `frontend/.env`
+2. Đảm bảo `VITE_API_KEY` khớp với `API_KEY` trong `backend/.env`:
+
+```env
+VITE_API_URL=http://localhost:9999
+VITE_API_KEY=your_secure_api_key_here  # Phải giống với API_KEY trong backend
+```
+
+3. Chạy frontend:
 
 ```bash
 cd frontend
-npm run build
-npm run preview
+npm install
+npm run dev
 ```
 
----
+### Lưu Ý Khi Thay Đổi Database
 
-## 📡 API Documentation
+- **Xóa migration cũ**: File trong `backend/src/migrations/` cần được xóa trước khi tạo migration mới
+- **API Key phải khớp**: `VITE_API_KEY` (frontend) = `API_KEY` (backend)
+- **Port phải trống**: Port 9999 (backend) và 5173 (frontend) không được sử dụng bởi ứng dụng khác
+- **PostgreSQL phải chạy**: Đảm bảo PostgreSQL service đang hoạt động
 
-### Base URL
+## Các Scripts Có Sẵn
 
-```
-http://localhost:9999/api/v1
-```
+### Backend
 
-### Endpoints
-
-#### 1. Register User
-
-**POST** `/users/register`
-
-**Request Body:**
-
-```json
-{
-  "email": "user@example.com",
-  "password": "password123",
-  "confirmPassword": "password123"
-}
+```bash
+npm run start:dev    # Khởi động development server với hot reload
+npm run build        # Build cho production
+npm run start        # Khởi động production server
+npm run migration:run    # Chạy database migrations
+npm run migration:revert # Hoàn tác migration gần nhất
 ```
 
-**Success Response (200):**
+### Frontend
 
-```json
-{
-  "code": 200,
-  "message": "User registered successfully",
-  "data": {
-    "userId": "uuid-string",
+```bash
+npm run dev          # Khởi động development server
+npm run build        # Build cho production
+npm run preview      # Xem trước production build
+npm run lint         # Chạy ESLint
+```
+
+## API Endpoints
+
+### Xác Thực
+
+- **POST** `/api/v1/users/register` - Đăng ký người dùng mới
+
+  ```json
+  {
     "email": "user@example.com",
-    "createdAt": "2025-11-22T10:30:00.000Z"
+    "password": "password123",
+    "confirmPassword": "password123"
   }
-}
-```
+  ```
 
-**Error Response (400):**
-
-```json
-{
-  "code": 400,
-  "message": "Validation failed",
-  "data": [
-    {
-      "field": "email",
-      "constraints": ["Invalid email format"]
-    }
-  ]
-}
-```
-
-#### 2. Login User
-
-**POST** `/users/login`
-
-**Request Body:**
-
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Success Response (200):**
-
-```json
-{
-  "code": 200,
-  "message": "User logged in successfully",
-  "data": {
-    "userId": "uuid-string",
-    "email": "user@example.com"
+- **POST** `/api/v1/users/login` - Đăng nhập người dùng
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "password123"
   }
-}
-```
+  ```
 
-**Error Response (404):**
-
-```json
-{
-  "code": 404,
-  "message": "User not found"
-}
-```
-
----
-
-## ✅ Assignment Requirements Checklist
-
-### Backend Implementation (4/10 points)
-
-| Requirement                                                                 | Status         | Points |
-| --------------------------------------------------------------------------- | -------------- | ------ |
-| API Endpoint `/register` with validation, duplicate check, password hashing | ✅ Implemented | 2/2    |
-| Error Handling with meaningful messages                                     | ✅ Implemented | 2/2    |
-
-### Frontend Implementation (5/10 points)
-
-| Requirement                                              | Status         | Points |
-| -------------------------------------------------------- | -------------- | ------ |
-| Routing (Home, Login, Sign Up)                           | ✅ Implemented | 1/1    |
-| Sign Up Page (Form, Validation, React Query Integration) | ✅ Implemented | 2/2    |
-| Login Page (Form, Validation, UI with Material UI)       | ✅ Implemented | 2/2    |
-
-### Deployment (1/10 points)
-
-| Requirement            | Status     | Points |
-| ---------------------- | ---------- | ------ |
-| Public host deployment | ⏳ Pending | 0/1    |
-
-**Total Score: 9/10 points** (pending deployment)
-
----
-
-## 🎨 Additional Features for Grade Consideration
-
-The following advanced features were implemented beyond the basic requirements and demonstrate professional-level development skills:
-
-1. **Authentication State Management** - Complete auth flow with React Context
-2. **Protected Routes** - Route guards for security
-3. **User Dashboard** - Full user profile page
-4. **Enhanced Security** - Password confirmation, validation decorators
-5. **Professional UI/UX** - Material UI with custom styling
-6. **Error Handling** - Comprehensive frontend/backend error management
-7. **Code Quality** - TypeScript, PropTypes, clean architecture
-8. **API Interceptors** - Request/response middleware
-9. **Session Persistence** - LocalStorage integration
-10. **Responsive Design** - Mobile-friendly interface
-
-These features demonstrate:
-
-- Advanced React patterns (Context API, Custom Hooks)
-- State management best practices
-- Security considerations
-- Professional UX design
-- Production-ready code quality
-
----
-
-## 🌐 Deployment
-
-### Backend Deployment Options
-
-#### Render.com
-
-1. Create new Web Service
-2. Connect GitHub repository
-3. Set build command: `npm install && npm run build`
-4. Set start command: `npm run start:prod`
-5. Add environment variables
-
-#### Railway.app
-
-1. Create new project
-2. Connect GitHub repository
-3. Add PostgreSQL database
-4. Set environment variables
-5. Deploy
-
-### Frontend Deployment Options
-
-#### Vercel
-
-```bash
-cd frontend
-vercel
-```
-
-#### Netlify
-
-```bash
-cd frontend
-netlify deploy --prod
-```
-
-### Environment Variables for Production
-
-Remember to update:
-
-- `FRONTEND_URL` in backend `.env`
-- `VITE_API_URL` in frontend `.env`
-
----
-
-## 📸 Screenshots
-
-### Home Page
-
-Professional landing page with gradient design and feature showcase.
-
-### Sign Up Page
-
-Registration form with real-time validation and backend integration.
-
-### Login Page
-
-Authentication page with error handling and success feedback.
-
-### Dashboard
-
-Protected user profile page showing user information.
-
----
-
-## 👨‍💻 Development Team
-
-- **Developer:** [Your Name]
-- **Course:** IA03 - User Registration API with React Frontend
-- **Date:** November 2025
-
----
-
-## 📝 License
-
-This project is part of an academic assignment.
-
----
-
-## 🙏 Acknowledgments
-
-- NestJS Documentation
-- React Documentation
-- Material UI Team
-- React Query (TanStack Query)
-- Assignment IA03 Requirements
-
----
-
-## 📧 Contact
-
-For questions or feedback, please contact: [Your Email]
-
----
-
-**Note:** This project exceeds the basic assignment requirements with additional features for enhanced user experience and code quality. Please consider the bonus features when evaluating the submission.
+Tất cả requests yêu cầu header `x-api-key` với API key của bạn.
