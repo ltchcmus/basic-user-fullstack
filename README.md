@@ -4,6 +4,12 @@
 
 **Sinh viên thực hiện:** Lê Thành Công
 
+**URL sản phẩm:** [User Hub](https://frontend-simple-fullstack.vercel.app)
+
+**Base URL Backend:** https://backend-simple-fullstack.onrender.com
+
+**Link repository Trên Github:** https://github.com/ltchcmus/basic-user-fullstack
+
 ## Tính Năng
 
 - **Xác Thực Người Dùng**: Hệ thống đăng ký và đăng nhập bảo mật
