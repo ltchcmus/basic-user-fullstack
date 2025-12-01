@@ -21,7 +21,14 @@
 
 ## Yêu Cầu Hệ Thống
 
-Trước khi chạy project, vui lòng cài đặt các phần mềm sau:
+### Chạy Với Docker (Khuyến Nghị)
+
+- **Docker Desktop** (phiên bản mới nhất)
+  - Windows/Mac: https://www.docker.com/products/docker-desktop
+  - Linux: https://docs.docker.com/engine/install/
+- **Docker Compose** (đã bao gồm trong Docker Desktop)
+
+### Chạy Thủ Công (Không Dùng Docker)
 
 - **Node.js** (phiên bản 18 trở lên)
   - Tải tại: https://nodejs.org/
@@ -34,25 +41,37 @@ Trước khi chạy project, vui lòng cài đặt các phần mềm sau:
 
 ## Cài Đặt & Thiết Lập
 
-### Lưu Ý Quan Trọng
+### Cách 1: Chạy Với Docker (Đơn Giản Nhất - Khuyến Nghị)
 
-Dự án này đã bao gồm **đầy đủ source code và file cấu hình** (`.env`). Nên sẽ có 2 cách để chạy:
+#### Bước 1: Khởi động ứng dụng
 
-**Cách 1: Sử dụng cấu hình có sẵn (Nhanh nhất)**
+```bash
+# Từ thư mục gốc của project
+docker-compose up -d
+```
 
-- Sử dụng file `.env` đã có trong project
-- Chỉ cần cài dependencies và chạy
-- **Bỏ qua bước thiết lập database**
+Lệnh này sẽ tự động:
 
-**Cách 2: Tự cấu hình database riêng**
+- Tạo và khởi động PostgreSQL database
+- Build và chạy NestJS backend
+- Build và chạy React frontend
 
-- Tạo database PostgreSQL mới
-- Chỉnh sửa file `.env` các thông tin liên quan database
-- Xóa migration cũ và tạo và chạy migration mới để tạo bảng trong database
+#### Bước 2: Truy cập ứng dụng
+
+- 🌐 **Frontend**: http://localhost:3000
+- 🔧 **Backend API**: http://localhost:9999
+- 🗄️ **PostgreSQL**: localhost:5432
+
+#### Nếu muốn dừng project
+
+```bash
+# Dừng và xóa tất cả data
+docker-compose down -v
+```
 
 ---
 
-### Cách 1: Sử dụng Cấu Hình Có Sẵn (Khuyến Nghị)
+### Cách 2: Chạy Thủ Công (Với File .env Có Sẵn)
 
 Nếu chạy nhanh với file `.env` có sẵn, làm theo các bước sau:
 
@@ -88,11 +107,9 @@ npm run dev
 
 ✅ Frontend sẽ chạy tại: **http://localhost:5173**
 
-**Mở trình duyệt và truy cập http://localhost:5173 để sử dụng ứng dụng.**
-
 ---
 
-### Cách 2: Tự Cấu Hình Database Riêng
+### Cách 3: Chạy Thủ Công (Với Database Riêng)
 
 Nếu muốn sử dụng database PostgreSQL riêng của mình:
 
@@ -173,6 +190,25 @@ npm run dev
 - **PostgreSQL phải chạy**: Đảm bảo PostgreSQL service đang hoạt động
 
 ## Các Scripts Có Sẵn
+
+### Docker Commands
+
+```bash
+# Khởi động tất cả services
+docker-compose up -d
+
+# Xem logs
+docker-compose logs -f
+
+# Dừng services
+docker-compose down
+
+# Rebuild và khởi động
+docker-compose up -d --build
+
+# Xóa tất cả (kể cả data)
+docker-compose down -v
+```
 
 ### Backend
 
